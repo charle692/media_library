@@ -1,0 +1,8 @@
+# Banished!
+.DS_Store
+
+# Don't want add video and images to source control
+media/video/*
+media/image/*
+public/media/image/*
+public/media/video/*

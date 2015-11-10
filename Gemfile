@@ -9,3 +9,9 @@ gem 'sass'
 gem 'shotgun'
 gem 'sinatra'
 gem 'sqlite3'
+gem 'ruby-filemagic'
+
+group :development, :test do
+  gem 'pry'
+  gem 'pry-byebug'
+end
