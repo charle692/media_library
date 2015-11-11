@@ -1,7 +1,7 @@
 <h1 class="text-center">New Video</h1>
 
 <div id="new-video">
-  <form action="/video/create" method="post" enctype='multipart/form-data'>
+  <form action="/video/create" method="post" enctype="multipart/form-data" id="new_video">
 
     <div class="form-group">
       <label for="video[title]">Title</label><br>
@@ -10,7 +10,7 @@
 
     <div class="form-group">
       <label for="video[description]">Description</label><br>
-      <input type="text" name="video[description]" value=""><br>
+      <textarea name="video[description]" form="new_video" rows="8"></textarea>
     </div>
 
     <div class="form-group">
@@ -20,7 +20,7 @@
 
     <div class="form-group">
       <label for="video[length]">Length</label><br>
-      <input type="text" name="video[length]" value=""><br>
+      <input type="number" name="video[length]" value=""><br>
     </div>
 
     <div class="form-group">

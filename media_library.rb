@@ -25,15 +25,21 @@ post '/video/create' do
   image_attachment = video.attachments.new
   video_attachment = video.attachments.new
 
+  # Move save file to a different method. Check if both files are valid mime_type before saving
   image_attachment.handle_uploaded_file(params['image-file'])
   video_attachment.handle_uploaded_file(params['video-file'])
 
-  if video.save
-    @message = 'Video was uploaded successfully'
+  if !image_attachment.path.nil? && !video_attachment.path.nil?
+    if video.save
+      @message = 'Video was uploaded'
+    else
+      @message = 'Video was uploaded'
+    end
   else
     @message = 'Video was not uploaded'
   end
 
+  # Renders the view
   erb :create
 end
 
@@ -104,6 +110,7 @@ class Attachment
   end
 end
 
+# basically takes our classes and properties and creates database tables
 configure :development do
   DataMapper.finalize
   DataMapper.auto_upgrade!
