@@ -38,3 +38,20 @@ input[type="submit"]:hover {
 .text-center {
   text-align: center;
 }
+
+#video-list {
+  width: 80%;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+#video-list img {
+  height: 200px;
+  width: auto;
+}
+
+.video {
+  margin-left: 40px;
+  margin-top: 40px;
+  display: inline-block;
+}

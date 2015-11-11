@@ -48,6 +48,13 @@ get '/video/new' do
   erb :new
 end
 
+get '/video/list' do
+  @title = 'Available Videos'
+  @videos = Video.all(order: [:title.desc])
+
+  erb :videos
+end
+
 # defining HTTP headers
 before do
   headers "Content-Type" => "text/html; charset=utf-8"
@@ -107,6 +114,10 @@ class Attachment
     end
 
     FileUtils.symlink(self.path, File.join($config['file_properties'][supported_mime_type['type']]['link_path'], file[:filename]))
+  end
+
+  def get_image_path
+    File.join("/media/image", self.filename)
   end
 end
 

@@ -1,0 +1,10 @@
+<h1 class="text-center"><%= @title %></h1>
+
+<div id="video-list">
+  <% @videos.each do |video| %>
+    <div class="video">
+      <img src=<%= video.attachments.find(mime_type: 'image/jpeg').first.get_image_path %> alt="Video Poster" />
+      <p class="text-center"><%= video.title %></p>
+    </div>
+  <% end %>
+</div>

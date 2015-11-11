@@ -1,14 +1,25 @@
 body {
   font-family: arial;
+  background-color: #eee;
+  margin: 0;
+}
+
+#header {
+  background-color: #fafafa;
+  padding: 20px;
 }
 
 #header ul {
   list-style: none;
   padding: 0;
+  width: 77%;
+  margin: 0 auto;
 }
 
 #header ul li {
   display: inline;
+  font-size: 1.5rem;
+  margin-right: 70px;
 }
 
 #header ul li a {
