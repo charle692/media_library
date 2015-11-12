@@ -103,10 +103,10 @@ input[type="submit"]:hover {
   width: 80%;
   height: auto;
   margin: 0 auto;
-  background-color: red;
 }
 
 #video-watch video {
   width: 100%;
   height: auto;
+  margin: 0 auto !important;
 }

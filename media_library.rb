@@ -5,7 +5,6 @@ require 'dm-sqlite-adapter'
 require 'dm-timestamps'
 require 'ostruct'
 require 'pry'
-require 'ruby-filemagic'
 require 'pry-byebug'
 
 # Global variable
