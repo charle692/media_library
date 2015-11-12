@@ -55,6 +55,29 @@ get '/video/list' do
   erb :videos
 end
 
+get '/video/show/:id' do
+  @video = Video.find(id: params[:id]).first
+  @title = @video.title
+
+  if @video
+    erb :show
+  else
+    redirect '/video/list'
+  end
+end
+
+get '/video/watch/:id' do
+  video = Video.find(id: params[:id]).first
+  @title = "Watch: #{video.title}"
+  @video = video.attachments.last
+
+  if @video
+    erb :watch
+  else
+    redirect "/video/show/#{video.id}"
+  end
+end
+
 # defining HTTP headers
 before do
   headers "Content-Type" => "text/html; charset=utf-8"
@@ -79,6 +102,14 @@ class Video
   property :length,       Integer
   property :title,        String
   property :updated_at,   DateTime
+
+  def get_video_show_path
+    File.join("/video/show/#{self.id}")
+  end
+
+  def get_poster_path
+    File.join("/media/image/#{self.attachments.find(mime_type: 'image/jpeg').first.filename}")
+  end
 end
 
 class Attachment
@@ -116,8 +147,8 @@ class Attachment
     FileUtils.symlink(self.path, File.join($config['file_properties'][supported_mime_type['type']]['link_path'], file[:filename]))
   end
 
-  def get_image_path
-    File.join("/media/image", self.filename)
+  def get_video_watch_path
+    File.join("/media/video/#{self.filename}")
   end
 end
 

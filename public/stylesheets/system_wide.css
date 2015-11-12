@@ -4,30 +4,12 @@ body {
   margin: 0;
 }
 
-#header {
-  background-color: #fafafa;
-  padding: 20px;
-}
-
-#header ul {
+ul {
   list-style: none;
   padding: 0;
-  width: 77%;
-  margin: 0 auto;
+  margin: 0;
 }
 
-#header ul li {
-  display: inline;
-  font-size: 1.5rem;
-  margin-right: 70px;
-}
-
-#header ul li a {
-  text-decoration: none;
-  color: #039BE5;
-}
-
-#header ul li a:hover {
-  text-decoration: none;
-  color: #0277BD;
+.text-center {
+  text-align: center;
 }

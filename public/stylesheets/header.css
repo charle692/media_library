@@ -1,0 +1,25 @@
+#header {
+  background-color: #fafafa;
+  padding: 20px;
+}
+
+#header ul {
+  width: 77%;
+  margin: 0 auto;
+}
+
+#header ul li {
+  display: inline;
+  font-size: 1.5rem;
+  margin-right: 70px;
+}
+
+#header ul li a {
+  text-decoration: none;
+  color: #039BE5;
+}
+
+#header ul li a:hover {
+  text-decoration: none;
+  color: #0277BD;
+}

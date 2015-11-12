@@ -1,0 +1,20 @@
+<h1 class="text-center"><%= @title %></h1>
+
+<div id="video-show">
+  <div id="video-poster">
+    <a href="/video/watch/<%= @video.id %>">
+      <img src=<%= @video.get_poster_path %> alt=<%= @video.title %> />
+    </a>
+  </div>
+
+  <div id="video-details">
+    <ul>
+      <li><span>Genre</span> <%= @video.genre %></li>
+      <li><span>Length</span> <%= @video.length %>mins</li>
+    </ul>
+
+    <br>
+    <span>Description</span>
+    <p><%= @video.description %></p>
+  </div>
+</div>

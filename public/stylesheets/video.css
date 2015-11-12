@@ -1,3 +1,4 @@
+/*--------------- New Video ---------------*/
 #new-video {
   width: 50%;
   margin: 0 auto;
@@ -35,17 +36,15 @@ input[type="submit"]:hover {
   cursor: pointer;
 }
 
-.text-center {
-  text-align: center;
-}
 
-#video-list {
+/*--------------- Videos ---------------*/
+#videos {
   width: 80%;
   margin: 0 auto;
   padding: 40px;
 }
 
-#video-list img {
+#videos img {
   height: 200px;
   width: auto;
 }
@@ -55,3 +54,48 @@ input[type="submit"]:hover {
   margin-top: 40px;
   display: inline-block;
 }
+
+
+/*--------------- Video Show ---------------*/
+
+#video-show {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+#video-show img {
+  height: 400px;
+  width: auto;
+}
+
+#video-poster, #video-details {
+  display: inline-block;
+  float: left;
+}
+
+#video-details {
+  width: 60%;
+  height: auto;
+  margin-left: 40px;
+}
+
+#video-show li, p, span {
+  font-size: 1.2rem;
+}
+
+#video-show span {
+  color: #A8A8A8;
+}
+
+#video-show p {
+  margin: 0;
+}
+
+#video-show img:hover {
+  -webkit-filter: contrast(1.5);
+  filter: contrast(1.5);
+}
+
+
+/*--------------- Video Watch ---------------*/
