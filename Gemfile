@@ -9,6 +9,7 @@ gem 'sinatra'
 gem 'sqlite3'
 gem 'passenger'
 gem 'thin'
+gem 'streamio-ffmpeg'
 
 group :development, :test do
   gem 'pry'

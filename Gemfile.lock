@@ -95,6 +95,7 @@ GEM
       colorize (>= 0.7.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    streamio-ffmpeg (1.0.0)
     stringex (1.5.1)
     thin (1.6.4)
       daemons (~> 1.0, >= 1.0.9)
@@ -117,6 +118,7 @@ DEPENDENCIES
   pry-byebug
   sinatra
   sqlite3
+  streamio-ffmpeg
   thin
 
 BUNDLED WITH

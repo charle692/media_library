@@ -6,6 +6,7 @@ require 'dm-timestamps'
 require 'ostruct'
 require 'pry'
 require 'pry-byebug'
+require 'streamio-ffmpeg'
 
 # Global variable
 $config = YAML.load_file(File.join(Dir.pwd, 'config.yml'))
@@ -29,10 +30,20 @@ post '/video/create' do
   video_attachment.handle_uploaded_file(params['video-file'])
 
   if !image_attachment.path.nil? && !video_attachment.path.nil?
+
+    movie = FFMPEG::Movie.new(video.attachments.first(mime_type: 'video/mp4').path)
+    video.duration = (movie.duration / 60).round
+    video.resolution = movie.resolution
+    video.size = movie.size
+    video.frame_rate = (movie.frame_rate).round
+    video.bitrate = movie.bitrate
+
+    binding.pry
+
     if video.save
       @message = 'Video was uploaded'
     else
-      @message = 'Video was uploaded'
+      @message = 'Video was not uploaded'
     end
   else
     @message = 'Video was not uploaded'
@@ -94,11 +105,15 @@ class Video
   has n, :attachments
 
   # defines video attributes
-  property :id,   Serial
+  property :id,           Serial
   property :created_at,   DateTime
   property :description,  Text
   property :genre,        String
-  property :length,       Integer
+  property :duration,     Integer
+  property :resolution,   String
+  property :size,         Integer
+  property :frame_rate,   Integer
+  property :bitrate,      Integer
   property :title,        String
   property :updated_at,   DateTime
 
