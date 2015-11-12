@@ -56,7 +56,7 @@ get '/video/list' do
 end
 
 get '/video/show/:id' do
-  @video = Video.find(id: params[:id]).first
+  @video = Video.first(id: params[:id])
   @title = @video.title
 
   if @video
@@ -67,8 +67,8 @@ get '/video/show/:id' do
 end
 
 get '/video/watch/:id' do
-  video = Video.find(id: params[:id]).first
-  @title = "Watch: #{video.title}"
+  video = Video.first(id: params[:id])
+  @title = "#{video.title}"
   @video = video.attachments.last
 
   if @video
@@ -108,7 +108,7 @@ class Video
   end
 
   def get_poster_path
-    File.join("/media/image/#{self.attachments.find(mime_type: 'image/jpeg').first.filename}")
+    File.join("/media/image/#{self.attachments.first(mime_type: 'image/jpeg').filename}")
   end
 end
 
