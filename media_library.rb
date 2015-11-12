@@ -38,8 +38,6 @@ post '/video/create' do
     video.frame_rate = (movie.frame_rate).round
     video.bitrate = movie.bitrate
 
-    binding.pry
-
     if video.save
       @message = 'Video was uploaded'
     else
