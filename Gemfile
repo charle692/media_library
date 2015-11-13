@@ -7,9 +7,9 @@ gem 'dm-sqlite-adapter'
 gem 'dm-timestamps'
 gem 'sinatra'
 gem 'sqlite3'
-gem 'passenger'
 gem 'thin'
 gem 'streamio-ffmpeg'
+gem 'themoviedb-api'
 
 group :development, :test do
   gem 'pry'

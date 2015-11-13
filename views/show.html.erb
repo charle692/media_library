@@ -11,9 +11,11 @@
     <ul>
       <li><span>Genre</span> <%= @video.genre %></li>
       <li><span>Duration</span> <%= @video.duration %>mins</li>
-      <li><span>Biterate</span> <%= @video.bitrate %>kb/s</li>
+      <li><span>Bitrate</span> <%= @video.bitrate %>kb/s</li>
       <li><span>Frame Rate</span> <%= @video.frame_rate %>FPS</li>
       <li><span>Size </span><%= (@video.size / 1000000).floor %>MB</li>
+      <li><span>Release Year </span><%= @video.release_date %></li>
+      <li><span>Rating </span><%= @video.rating %>/10</li>
     </ul>
 
     <br>
