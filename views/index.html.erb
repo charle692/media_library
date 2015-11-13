@@ -1,1 +1,14 @@
+<h1 class="text-center"><%= @title %></h1>
 
+<div id="videos">
+  <% 5.times do %>
+    <% @videos.each do |video| %>
+      <div class="video">
+        <a href=<%= video.get_video_show_path %>>
+          <img src=<%= video.get_poster_path %> alt="Video Poster" />
+          <p class="text-center"><%= video.title %></p>
+        </a>
+      </div>
+    <% end %>
+  <% end %>
+</div>

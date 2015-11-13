@@ -17,6 +17,8 @@ Tilt.register Tilt::ERBTemplate, 'html.erb'
 # RESTful routes
 get '/' do
   @title = 'Personal Media Library'
+  @videos = Video.all(order: [:title.desc])
+
   erb :index
 end
 
@@ -33,7 +35,6 @@ post '/video/create' do
 
     movie = FFMPEG::Movie.new(video.attachments.first(mime_type: 'video/mp4').path)
     video.duration = (movie.duration / 60).round
-    video.resolution = movie.resolution
     video.size = movie.size
     video.frame_rate = (movie.frame_rate).round
     video.bitrate = movie.bitrate
@@ -54,13 +55,6 @@ end
 get '/video/new' do
   @title = 'Upload Video'
   erb :new
-end
-
-get '/video/list' do
-  @title = 'Available Videos'
-  @videos = Video.all(order: [:title.desc])
-
-  erb :videos
 end
 
 get '/video/show/:id' do
@@ -108,7 +102,6 @@ class Video
   property :description,  Text
   property :genre,        String
   property :duration,     Integer
-  property :resolution,   String
   property :size,         Integer
   property :frame_rate,   Integer
   property :bitrate,      Integer

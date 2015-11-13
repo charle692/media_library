@@ -13,7 +13,7 @@ file_properties:
       mime_type: 'image/jpeg'
       type:      'image'
     - extension: 'm4v'
-      mime_type: 'video/mv4'
+      mime_type: 'video/m4v'
       type:      'video'
     - extension: 'mov'
       mime_type: 'video/quicktime'
