@@ -1,7 +1,7 @@
 <h1 class="text-center"><%= @title %></h1>
 
 <div id="video-watch">
-  <video id="video-canvas" class="video-js" controls preload="auto" data-setup="{}">
+  <video id="video-canvas" class="video-js" width="1280" height="720" controls preload="auto" data-setup="{}">
     <source src=<%= @video.get_video_watch_path %> type="video/mp4">
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a web browser that
