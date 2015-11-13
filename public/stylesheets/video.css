@@ -49,6 +49,10 @@ input[type="submit"]:hover {
   width: auto;
 }
 
+#videos p {
+  color: #222;
+}
+
 .video {
   margin-left: 40px;
   margin-top: 40px;
@@ -81,6 +85,7 @@ h1#video-title {
   color: #fff;
 }
 
+
 #video-container {
   width: 80%;
   margin: 0 auto;
@@ -88,14 +93,16 @@ h1#video-title {
   top: 60px;
 }
 
+
 #video-details {
   width: 60%;
   margin-left: 40px;
-  background-color: #eee;
+  background-color: hsla(1, 0%, 21%, 0.7);
   border-radius: 10px;
   padding: 20px;
   position: absolute;
   top: 0;
+  min-height: 360px;
 }
 
 #video-poster img {
@@ -104,7 +111,7 @@ h1#video-title {
 }
 
 #video-poster, #video-details {
-  display: inline-block;
+  display: inline-block
 }
 
 #video-poster img:hover {
@@ -112,24 +119,73 @@ h1#video-title {
   filter: contrast(1.5);
 }
 
-#video-details {
-  width: 60%;
-  height: auto;
-  margin-left: 40px;
-}
-
 #video-details li, p, span {
   font-size: 1.2rem;
+  color: #fff;
 }
 
 #video-details span {
-  color: #aeaeae;
+  color: #ccc;
 }
 
 #video-details p {
   margin: 0;
 }
 
+@media screen and (max-width: 800px) {
+  h1#video-title {
+    font-size: 2rem;
+  }
+
+  #video-description {
+    display: none;
+  }
+
+  #video-show {
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    height: 140%;
+  }
+
+  #video-poster {
+    height: 350px;
+    width: auto;
+  }
+
+  #video-poster img {
+    height: 350px;
+    width: auto;
+  }
+
+  #video-container {
+    width: 100%;
+    text-align:center;
+  }
+
+  #video-details {
+    min-height: 0;
+    position: relative;
+    top: 0;
+    left: 23px;
+    padding: 10px;
+    padding-bottom: 0;
+    min-height: 0px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  #video-poster, #video-details {
+    display: block
+  }
+}
+
+@media screen and (min-width: 801px) {
+  #video-container {
+    position:relative;
+    left: 2%;
+  }
+}
 
 /*--------------- Video Watch ---------------*/
 #video-watch {

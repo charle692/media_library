@@ -13,3 +13,13 @@
   font-size: 1.5rem;
   margin-right: 70px;
 }
+
+@media screen and (max-width: 640px) {
+  #header ul li {
+    margin-right: 20px;
+  }
+
+  #header {
+    padding: 10px;
+  }
+}
