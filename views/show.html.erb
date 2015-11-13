@@ -1,25 +1,27 @@
-<h1 class="text-center"><%= @title %></h1>
+<img id="video-show" src=<%= @video.get_backdrop_path %> alt=<%= @video.title %>>
+  <h1 id="video-title" class="text-center"><%= @title %></h1>
 
-<div id="video-show">
-  <div id="video-poster">
-    <a href="/video/watch/<%= @video.id %>">
-      <img src=<%= @video.get_poster_path %> alt=<%= @video.title %> />
-    </a>
+  <div id="video-container">
+    <div id="video-poster">
+      <a href="/video/watch/<%= @video.id %>">
+        <img src=<%= @video.get_poster_path %> alt=<%= @video.title %> />
+      </a>
+    </div>
+
+    <div id="video-details">
+      <ul>
+        <li><span>Genre</span> <%= @video.genre %></li>
+        <li><span>Duration</span> <%= @video.duration %>mins</li>
+        <li><span>Bitrate</span> <%= @video.bitrate %>kb/s</li>
+        <li><span>Frame Rate</span> <%= @video.frame_rate %>FPS</li>
+        <li><span>Size </span><%= (@video.size / 1000000).floor %>MB</li>
+        <li><span>Release Year </span><%= @video.release_date %></li>
+        <li><span>Rating </span><%= @video.rating %>/10</li>
+      </ul>
+
+      <br>
+      <span>Description</span>
+      <p><%= @video.description %></p>
+    </div>
   </div>
-
-  <div id="video-details">
-    <ul>
-      <li><span>Genre</span> <%= @video.genre %></li>
-      <li><span>Duration</span> <%= @video.duration %>mins</li>
-      <li><span>Bitrate</span> <%= @video.bitrate %>kb/s</li>
-      <li><span>Frame Rate</span> <%= @video.frame_rate %>FPS</li>
-      <li><span>Size </span><%= (@video.size / 1000000).floor %>MB</li>
-      <li><span>Release Year </span><%= @video.release_date %></li>
-      <li><span>Rating </span><%= @video.rating %>/10</li>
-    </ul>
-
-    <br>
-    <span>Description</span>
-    <p><%= @video.description %></p>
-  </div>
-</div>
+</img>

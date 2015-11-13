@@ -22,6 +22,7 @@ Tmdb::Api.key($tmdb_key)
 
 # Tells ruby that html.erb is an erb template
 Tilt.register Tilt::ERBTemplate, 'html.erb'
+Tilt.register Tilt::ERBTemplete, 'css.erb'
 
 # Connects to the database
 configure do
