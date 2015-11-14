@@ -59,6 +59,18 @@ input[type="submit"]:hover {
   display: inline-block;
 }
 
+@media screen and (max-width: 641px) {
+  #videos img {
+    height: 150px;
+    width: auto;
+  }
+
+  #videos {
+    padding: 0;
+    width: 100%;
+  }
+}
+
 
 /*--------------- Video Show ---------------*/
 
@@ -189,8 +201,31 @@ h1#video-title {
 
 /*--------------- Video Watch ---------------*/
 #video-watch {
-  width: 1280px;
-  height: auto;
+  width: 1000px;
+  height: 563px;
   margin: 0 auto;
   margin-bottom: 40px;
+}
+
+#video-canvas {
+  width: 1000px;
+  height: 563px;
+}
+
+@media screen and (max-width: 640px) {
+  #video-watch, #video-canvas {
+    width: 320px;
+    height: 180px;
+  }
+
+  h1#watch-title {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 641px) and (max-width: 1000px) {
+  #video-watch, #video-canvas {
+    width: 600px;
+    height: 338px;
+  }
 }
