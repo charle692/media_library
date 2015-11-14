@@ -46,10 +46,9 @@ post '/video/create' do
   video_attachment = video.attachments.new
 
   # Move save file to a different method. Check if both files are valid mime_type before saving
-  video_attachment.handle_uploaded_video(params['video-file'])
+  video_attachment.handle_uploaded_video(params['video-file']) if !params['video-file'].blank?
 
-  if !video_attachment.path.nil?
-
+  if video_attachment.valid?
     # Get video file metadata
     video_metadata = FFMPEG::Movie.new(video.attachments.first(mime_type: 'video/mp4').path)
     video.duration = (video_metadata.duration / 60).round
@@ -58,45 +57,50 @@ post '/video/create' do
     video.bitrate = video_metadata.bitrate
 
     # Get video details
-    video.title = video.title.delete("'") # api doesn't like <'>
+    video.title = video.title.delete("'") # api doesn't like apostrophes
     video_details = Tmdb::Search.movie(video.title, page: 1)['results'][0]
-    video.title = video.title.tr(" ", "_")
-    video.release_date = video_details['release_date'][0..3]
-    video.rating = video_details['vote_average'].round
-    video.description = video_details['overview']
 
-    poster = video.attachments.new
-    backdrop = video.attachments.new
+    if !video_details.blank?
+      video.title = video.title.tr(" ", "_")
+      video.release_date = video_details['release_date'][0..3]
+      video.rating = video_details['vote_average'].round
+      video.description = video_details['overview']
 
-    # Get video poster
-    File.open(File.join(Dir.pwd, $image_path, "#{video.title}.jpg"), "w") do |f|
-  		f.write(open(File.join($img_poster_url, video_details['poster_path'])).read)
-  	end
+      poster = video.attachments.new
+      backdrop = video.attachments.new
 
-    # Get video background
-    File.open(File.join(Dir.pwd, $image_path, "#{video.title}_backdrop.jpg"), "w") do |f|
-  		f.write(open(File.join($img_backdrop_url, video_details['backdrop_path'])).read)
-  	end
+      # Get video poster
+      File.open(File.join(Dir.pwd, $image_path, "#{video.title}.jpg"), "w") do |f|
+    		f.write(open(File.join($img_poster_url, video_details['poster_path'])).read)
+    	end
 
-    # Poster
-    poster.handle_uploaded_image
-    poster.filename  = "#{video.title}.jpg"
-    poster.path      = File.join(Dir.pwd, '/media/image', "#{video.title}.jpg")
+      # Get video background
+      File.open(File.join(Dir.pwd, $image_path, "#{video.title}_backdrop.jpg"), "w") do |f|
+    		f.write(open(File.join($img_backdrop_url, video_details['backdrop_path'])).read)
+    	end
 
-    # Backdrop
-    backdrop.handle_uploaded_image
-    backdrop.filename  = "#{video.title}_backdrop.jpg"
-    backdrop.path      = File.join(Dir.pwd, '/media/image', "#{video.title}_backdrop.jpg")
+      # Poster
+      poster.handle_uploaded_image
+      poster.filename  = "#{video.title}.jpg"
+      poster.path      = File.join(Dir.pwd, '/media/image', "#{video.title}.jpg")
 
-    # Create symlinks
-    video_attachment.create_symlink("video")
-    poster.create_symlink("image")
-    backdrop.create_symlink("image")
+      # Backdrop
+      backdrop.handle_uploaded_image
+      backdrop.filename  = "#{video.title}_backdrop.jpg"
+      backdrop.path      = File.join(Dir.pwd, '/media/image', "#{video.title}_backdrop.jpg")
 
-    if video.save
-      @message = 'Video was uploaded'
+      # Create symlinks
+      video_attachment.create_symlink("video")
+      poster.create_symlink("image")
+      backdrop.create_symlink("image")
+
+      if video.save
+        @message = 'Video was uploaded'
+      else
+        @message = 'Video was not uploaded'
+      end
     else
-      @message = 'Video was not uploaded'
+      @message = 'Not a valid video title'
     end
   else
     @message = 'Video was not uploaded'
@@ -148,11 +152,13 @@ class Video
   property :frame_rate,   Integer
   property :bitrate,      Integer
   property :rating,       Integer
-  property :genre,        String
-  property :title,        String
+  property :genre,        String, length: 1..20, :format => /\A[\w\s]+\z/
+  property :title,        String, length: 1..50, :format => /\A[\s\w'.,]+\z/
   property :release_date, String
   property :updated_at,   DateTime
   property :created_at,   DateTime
+
+  validates_presence_of :genre, :title
 
   def get_video_show_path
     File.join("/video/show/#{self.id}")
@@ -181,6 +187,8 @@ class Attachment
   property :mime_type,   String
   property :path,        Text
   property :updated_at,  DateTime
+
+  validates_presence_of :extension, :filename, :mime_type, :path
 
   def handle_uploaded_image
     self.extension = 'jpg'
