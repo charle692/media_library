@@ -15,3 +15,8 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
 end
+
+group :test do
+  gem 'minitest'
+  gem 'rack-test'
+end
