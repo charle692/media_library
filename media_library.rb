@@ -47,7 +47,6 @@ class MediaLibrary < Sinatra::Base
   end
 
   post '/video/create' do
-    binding.pry
     video = Video.new(params[:video])
     video_attachment = video.attachments.new
 
