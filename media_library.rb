@@ -3,13 +3,11 @@ require 'dm-core'
 require 'dm-migrations'
 require 'dm-sqlite-adapter'
 require 'dm-timestamps'
-require 'ostruct'
 require 'pry'
 require 'pry-byebug'
 require 'streamio-ffmpeg'
 require 'themoviedb-api'
 require 'open-uri'
-require 'sinatra/base'
 
 require_relative 'models/video'
 require_relative 'models/attachment'
@@ -98,7 +96,7 @@ class MediaLibrary < Sinatra::Base
 
   get '/video/show/:id' do
     @video = Video.first(id: params[:id])
-    @title = @video.title if @video
+    @title = @video.get_title if @video
 
     if @video
       erb :show
@@ -110,8 +108,8 @@ class MediaLibrary < Sinatra::Base
   get '/video/watch/:id' do
     video = Video.first(id: params[:id])
     if video
-      @title = video.title
-      @video = video.attachments.first(:extension.not => 'jpg')
+      @title = video.get_title
+      @video = video.attachments.first(type: 'video')
     end
 
     if @video

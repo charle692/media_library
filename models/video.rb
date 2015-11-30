@@ -12,7 +12,7 @@ class Video
   property :frame_rate,   Integer
   property :bitrate,      Integer
   property :rating,       Integer
-  property :genre,        String, length: 1..20, :format => /\A[\w\s]+\z/
+  property :genre,        String, length: 1..50, :format => /\A[\w\s,]+\z/
   property :title,        String, length: 1..50, :format => /\A[\s\w'.,]+\z/
   property :release_date, String
   property :updated_at,   DateTime
@@ -34,8 +34,12 @@ class Video
       self.attachments.first(filename: "#{self.title}_backdrop.jpg").filename)
   end
 
+  def get_title
+    self.title.tr('_', ' ')
+  end
+
   def get_metadata
-    video_metadata = FFMPEG::Movie.new(self.attachments.first(mime_type: 'video/mp4').path)
+    video_metadata = FFMPEG::Movie.new(self.attachments.first(type: 'video').path)
     self.duration = (video_metadata.duration / 60).round
     self.size = video_metadata.size
     self.frame_rate = (video_metadata.frame_rate).round
