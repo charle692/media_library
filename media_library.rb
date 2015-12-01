@@ -1,8 +1,5 @@
 require 'data_mapper'
-require 'dm-core'
-require 'dm-migrations'
 require 'dm-sqlite-adapter'
-require 'dm-timestamps'
 require 'pry'
 require 'pry-byebug'
 require 'streamio-ffmpeg'
@@ -36,12 +33,16 @@ class MediaLibrary < Sinatra::Base
     headers "Content-Type" => "text/html; charset=utf-8"
   end
 
-  # RESTful routes
   get '/' do
     @title = 'Personal Media Library'
-    @videos = Video.all(order: [:title.desc])
+    @videos = Video.all(order: [:title.asc])
 
     erb :index
+  end
+
+  get '/video/new' do
+    @title = 'Upload Video'
+    erb :new
   end
 
   post '/video/create' do
@@ -87,11 +88,6 @@ class MediaLibrary < Sinatra::Base
     end
 
     erb :create
-  end
-
-  get '/video/new' do
-    @title = 'Upload Video'
-    erb :new
   end
 
   get '/video/show/:id' do

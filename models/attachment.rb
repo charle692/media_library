@@ -1,5 +1,5 @@
 class Attachment
-  include DataMapper::Resource # includes the database connection
+  include DataMapper::Resource
 
   # creates association
   belongs_to :video
