@@ -1,10 +1,8 @@
 class Video
-  include DataMapper::Resource # includes the database connection
+  include DataMapper::Resource
 
-  # creates association
   has n, :attachments
 
-  # defines video attributes
   property :id,           Serial
   property :description,  Text
   property :duration,     Integer
@@ -17,8 +15,6 @@ class Video
   property :release_date, String
   property :updated_at,   DateTime
   property :created_at,   DateTime
-
-  validates_presence_of :genre, :title
 
   def get_video_show_path
     File.join("/video/show/#{self.id}")
@@ -53,6 +49,5 @@ class Video
     self.release_date = video_details['release_date'][0..3]
     self.rating = video_details['vote_average'].round
     self.description = video_details['overview']
-    true
   end
 end

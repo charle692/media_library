@@ -2,6 +2,7 @@ body {
   font-family: arial;
   margin: 0;
   background-color: #eee;
+  overflow-x: hidden;
 }
 
 ul {

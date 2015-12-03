@@ -1,10 +1,8 @@
 class Attachment
   include DataMapper::Resource
 
-  # creates association
   belongs_to :video
 
-  # defines properties
   property :id,          Serial
   property :created_at,  DateTime
   property :extension,   String
@@ -39,18 +37,21 @@ class Attachment
   end
 
   def handle_uploaded_video(file)
+    return false if file.blank?
+
     self.extension = File.extname(file[:filename]).sub(/^\./, '').downcase
 
-    supported_mime_type = $config['file_properties']['supported_mime_types'].select do |type|
+    supported_mime_type = $valid_mime.select do |type|
       type['extension'] == self.extension
     end.first
 
     return false unless supported_mime_type
 
-    self.filename  = file[:filename].tr(" ", "_") # prevent errors caused by spaces in filename
+    # Unix doesn't like spaces
+    self.filename  = file[:filename].tr(" ", "_")
     self.mime_type = file[:type]
     self.type      = 'video'
-    self.path      = File.join(Dir.pwd, $config['file_properties'][supported_mime_type['type']]['absolute_path'], self.filename)
+    self.path      = File.join(Dir.pwd, 'media/video', self.filename)
 
     File.open(path, 'wb') do |f|
       f.write(file[:tempfile].read)

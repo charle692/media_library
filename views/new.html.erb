@@ -1,16 +1,37 @@
 <h1 class="text-center">New Video</h1>
 
+<ul class="text-center">
+  <% if @video.present? %>
+      <% @video.errors.each do |error| %>
+        <li><%= error.first %></li>
+      <% end %>
+  <% end %>
+
+  <% if params['video-file'].blank? %>
+      <li>A video file must be uploaded</li>
+  <% end %>
+</ul>
+
 <div id="new-video">
   <form action="/video/create" method="post" enctype="multipart/form-data" id="new_video">
-
     <div class="form-group">
       <label for="video[title]">Title</label><br>
-      <input type="text" name="video[title]" value=""><br>
+      <% if params.present? %>
+        <input type="text" name="video[title]" value='<%= embed = "#{params[:video][:title]}" %>'>
+      <% else %>
+        <input type='text' name='video[title]' value="">
+      <% end %>
+      <br>
     </div>
 
     <div class="form-group">
       <label for="video[genre]">Genre</label><br>
-      <input type="text" name="video[genre]" value=""><br>
+      <% if params.present? %>
+        <input type="text" name="video[genre]" value='<%= embed = "#{params[:video][:genre]}" %>'>
+      <% else %>
+        <input type="text" name="video[genre]" value="">
+      <% end %>
+      <br>
     </div>
 
     <div class="form-group">

@@ -10,27 +10,17 @@ require_relative 'models/video'
 require_relative 'models/attachment'
 
 class MediaLibrary < Sinatra::Base
-  # Global variables
   $tmdb_key = YAML.load_file(File.join(Dir.pwd, 'keys.yml'))['the_movie_db']
   $img_poster_url = "http://image.tmdb.org/t/p/w500"
   $img_backdrop_url = "http://image.tmdb.org/t/p/w780"
   $image_path = "/media/image"
-  $config = YAML.load_file(File.join(Dir.pwd, 'config.yml'))
+  $valid_mime = YAML.load_file(File.join(Dir.pwd, 'config.yml'))['supported_mime_types']
 
-  # TheMovideDB API Key - this key is not added to source control
   Tmdb::Api.key($tmdb_key)
-
-  # Tells ruby that html.erb is an erb template
   Tilt.register Tilt::ERBTemplate, 'html.erb'
 
-  # Connects to the database
   configure do
     DataMapper::setup(:default, File.join('sqlite://', Dir.pwd, 'development.db'))
-  end
-
-  # defining HTTP headers
-  before do
-    headers "Content-Type" => "text/html; charset=utf-8"
   end
 
   get '/' do
@@ -46,48 +36,41 @@ class MediaLibrary < Sinatra::Base
   end
 
   post '/video/create' do
-    video = Video.new(params[:video])
-    video_attachment = video.attachments.new
+    @video = Video.new(params[:video])
+    video_attachment = @video.attachments.new
 
-    # Check if file has a valid mime_type before saving
-    video_attachment.handle_uploaded_video(params['video-file']) if !params['video-file'].blank?
+    if @video.valid? && video_attachment.handle_uploaded_video(params['video-file'])
+      @video.get_metadata
+      @video.title = @video.title.delete("'") # Tmdb doesn't like apostrophes
+      video_details = Tmdb::Search.movie(@video.title, page: 1)['results'][0]
 
-    if !video_attachment.mime_type.nil?
-      video.get_metadata
-      video.title = video.title.delete("'") # api doesn't like apostrophes
+      if @video.get_video_details(video_details)
+        poster = @video.attachments.new
+        backdrop = @video.attachments.new
 
-      # API call
-      video_details = Tmdb::Search.movie(video.title, page: 1)['results'][0]
+        poster.get_image($img_poster_url,
+                         "#{@video.title}.jpg",
+                         video_details['poster_path'])
 
-      if video.get_video_details(video_details)
-        poster = video.attachments.new
-        backdrop = video.attachments.new
+        backdrop.get_image($img_backdrop_url,
+                           "#{@video.title}_backdrop.jpg",
+                           video_details['backdrop_path'])
 
-        poster.get_image($img_poster_url, "#{video.title}.jpg",
-                                          video_details['poster_path'])
+        poster.handle_uploaded_image("#{@video.title}.jpg")
+        backdrop.handle_uploaded_image("#{@video.title}_backdrop.jpg")
 
-        backdrop.get_image($img_backdrop_url, "#{video.title}_backdrop.jpg",
-                                              video_details['backdrop_path'])
-
-        poster.handle_uploaded_image("#{video.title}.jpg")
-        backdrop.handle_uploaded_image("#{video.title}_backdrop.jpg")
-        video_attachment.create_symlink("video")
-        poster.create_symlink("image")
-        backdrop.create_symlink("image")
-
-        if video.save
-          @message = 'Video was uploaded'
-        else
-          @message = 'Video was not uploaded'
-        end
-      else
-        @message = 'Not a valid video title'
+        video_attachment.create_symlink('video')
+        poster.create_symlink('image')
+        backdrop.create_symlink('image')
       end
-    else
-      @message = 'Video was not uploaded'
     end
 
-    erb :create
+    if params[:filename] && @video.save
+      redirect '/'
+    else
+      @message = 'The following prevented the video from being saved:'
+      erb :new, locals: {video: @video, params: params}
+    end
   end
 
   get '/video/show/:id' do
